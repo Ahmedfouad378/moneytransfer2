@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ATM Approvals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+<!-- ====================================================== -->
+<!-- PAGE: approvals.html                                      -->
+<!-- NOTE: Original code preserved. Comments/IDs added.     -->
+<!-- ====================================================== -->
+
+    <div id="app">
+      <div class="space-y-4 min-h-[70vh]">
+        <div class="card border border-gray-200 p-4">
+          <div class="text-lg font-semibold">Pending ATM Requests (Out of Contract)</div>
+        </div>
+        <div id="list" class="space-y-3"></div>
+      </div>
+    </div>
+    <script src="./layout.js"></script>
+    <script>
+      __layout.renderLayout({ active: 'branch', title: 'Approvals', variant: 'img' });
+      const list = document.getElementById('list');
+      const items = [
+        {id:'20-100', model:'NCR S2', bank:'Bank of Cairo', date:'2025-11-20'},
+        {id:'20-101', model:'NCR S2', bank:'QNB', date:'2025-11-20'},
+        {id:'20-205', model:'Diebold', bank:'National Bank', date:'2025-11-19'}
+      ];
+      items.forEach(it=>{
+        const card = document.createElement('div');
+        card.className = 'card border border-gray-200 p-4 flex items-center justify-between';
+        card.innerHTML = `<div>
+            <div class="font-semibold">ATM ${it.id} • ${it.model}</div>
+            <div class="text-xs text-slate-500">${it.bank} • Requested ${it.date}</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="btn-primary h-9">Approve</button>
+            <button class="btn-outline-blue h-9" style="border-color:#e5e7eb;color:#374151">Ignore</button>
+          </div>`;
+        list.appendChild(card);
+      })
+    </script>
+  </body>
+  </html>
+

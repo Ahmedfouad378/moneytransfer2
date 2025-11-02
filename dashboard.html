@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main Admin • Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./syle.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./layout.js"></script>
+</head>
+
+  <body class="bg-gray-50 text-slate-900">
+    <div id="app">
+      <div class="space-y-6">
+        <section class="cards">
+        <div class="kpi">
+          <p>Active Orders</p>
+          <h2>12</h2>
+        </div>
+        <div class="kpi">
+          <p>Avg Response Time</p>
+          <h2>1h 12m</h2>
+        </div>
+        <div class="kpi">
+          <p>Delayed Orders</p>
+          <h2 style="color:#b91c1c;">3</h2>
+        </div>
+        <div class="kpi">
+          <p>Total Transferred Today</p>
+          <h2 style="color:#166534;">£E 560,000</h2>
+        </div>
+      </section>
+
+      <section class="grid-2-1">
+        <div class="card">
+          <h2>Orders Summary</h2>
+          <canvas id="ordersChart"></canvas>
+        </div>
+
+        <div class="card">
+          <h2>Smart Notifications</h2>
+          <ul class="notifications">
+            <li style="color:#1d4ed8;">• New bank order uploaded</li>
+            <li style="color:#b91c1c;">• ATMs out of contract</li>
+            <li style="color:#b45309;">• Repeated issue at ATM #567</li>
+            <li style="color:#334155;">• Pending approvals</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <h2>Technician Performance</h2>
+          <canvas id="techChart"></canvas>
+        </div>
+
+        <div class="card">
+          <h2>Money Transfer Summary</h2>
+          <div class="money-transfer">
+            <div>🚚 <strong>3</strong> Vehicles on route</div>
+            <div>💵 <strong>£E 2.4M</strong> In transit</div>
+            <div>✅ <strong>5</strong> Transfers completed</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <h2>Recent Orders</h2>
+          <div class="orders-feed">
+            <div>#432 - CIB ATM 1203 • <span class="status blue">In progress</span></div>
+            <div>#431 - NBE ATM 888 • <span class="status green">Done</span></div>
+            <div>#430 - HSBC ATM 321 • <span class="status red">Delayed 1h</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Weekly Analysis</h2>
+          <div class="weekly-analysis">
+            <div class="analysis-item">
+              <span class="analysis-label">Orders Completed</span>
+              <span class="analysis-value">47</span>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">Avg Response Time</span>
+              <span class="analysis-value">2h 15m</span>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">Success Rate</span>
+              <span class="analysis-value">94%</span>
+            </div>
+            <div class="analysis-item">
+              <span class="analysis-label">Total Revenue</span>
+              <span class="analysis-value">£E 1.2M</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="quick">
+        <a class="quick-item" href="branch.html">
+          <span class="qi-icon">🏢</span><span class="qi-text">Track View</span>
+        </a>
+        <a class="quick-item" href="schedule.html">
+          <span class="qi-icon">📅</span><span class="qi-text">Schedule</span>
+        </a>
+        <a class="quick-item" href="add-branch.html">
+          <span class="qi-icon">🏦</span><span class="qi-text">Bank</span>
+        </a>
+        <a class="quick-item" href="create-track.html">
+          <span class="qi-icon">➕</span><span class="qi-text">Create Track</span>
+        </a>
+        <a class="quick-item" href="upload-order.html">
+          <span class="qi-icon">⤴️</span><span class="qi-text">Upload Orders</span>
+        </a>
+        <a class="quick-item" href="approvals.html">
+          <span class="qi-icon">✔️</span><span class="qi-text">Approvals</span>
+        </a>
+      </section>
+      </div>
+    </div>
+
+  <script>
+    // Debug: Check if layout.js loaded
+    console.log('Dashboard script loaded');
+    console.log('__layout available:', typeof __layout !== 'undefined');
+    
+    // Wait for DOM and layout.js to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, checking for layout...');
+      
+      function tryInitialize() {
+        if (typeof __layout !== 'undefined' && __layout.renderLayout) {
+          console.log('Initializing layout...');
+          
+          // Activate layout system (loads sidebar + topbar)
+          __layout.renderLayout({
+            active: 'dashboard',
+            title: 'Dashboard',
+            variant: 'img'
+          });
+
+          // Initialize charts after layout is loaded
+          setTimeout(() => {
+            console.log('Initializing charts...');
+            
+            // Orders Chart
+            const ordersCtx = document.getElementById("ordersChart");
+            if (ordersCtx) {
+              new Chart(ordersCtx, {
+                type: 'bar',
+                data: {
+                  labels: ['In Progress', 'Done', 'Failed'],
+                  datasets: [{
+                    label: 'Orders',
+                    data: [12, 9, 2],
+                    backgroundColor: ['#60a5fa', '#34d399', '#f87171']
+                  }]
+                },
+                options: { 
+                  responsive: true,
+                  plugins: { legend: { display: false } },
+                  scales: { y: { beginAtZero: true } }
+                }
+              });
+            }
+
+            // Technician Performance Chart
+            const techCtx = document.getElementById("techChart");
+            if (techCtx) {
+              new Chart(techCtx, {
+                type: 'line',
+                data: {
+                  labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                  datasets: [{
+                    label: 'Performance',
+                    data: [70, 85, 80, 88, 75, 90, 95],
+                    borderColor: '#1e3a8a',
+                    backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                    fill: false,
+                    tension: 0.3
+                  }]
+                },
+                options: { 
+                  responsive: true,
+                  plugins: { legend: { display: false } },
+                  scales: { y: { min: 0, max: 100 } }
+                }
+              });
+            }
+          }, 1000);
+        } else {
+          console.log('Layout not ready, retrying...');
+          setTimeout(tryInitialize, 200);
+        }
+      }
+      
+      tryInitialize();
+    });
+  </script>
+</body>
+</html>

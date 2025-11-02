@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Branch View</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+<!-- ====================================================== -->
+<!-- PAGE: branch.html                                      -->
+<!-- NOTE: Original code preserved. Comments/IDs added.     -->
+<!-- ====================================================== -->
+
+    <div id="app">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="branch-grid"></div>
+    </div>
+    <script src="./layout.js"></script>
+    <script>
+      // Unified sidebar/header across all pages
+      __layout.renderLayout({ active: 'branch', title: 'Branch View', variant: 'img' });
+      const sampleTracks = { Cairo:[], Alexandria:[], Aswan:[] };
+      const cities = Object.keys(sampleTracks);
+      const grid = document.getElementById('branch-grid');
+      cities.forEach(city=>{
+        const card = document.createElement('div');
+        card.className = 'card border border-gray-200 px-5 py-4';
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="text-lg font-semibold">${city}</div>
+            <span class="badge-blue">${city[0]}</span>
+          </div>
+          <div class="text-sm text-slate-500 mt-1">Track : 50</div>
+          <!-- ===== Branch Box Actions (inside each rectangle) ===== -->
+          <div class="flex items-center gap-2 mt-3">
+            <button class="btn-action btn-view" onclick="window.location.href='city.html?city=${encodeURIComponent(city)}'">View</button>
+            <button class="btn-action btn-edit" onclick="alert('Edit ${city} - Backend hook needed')">Edit</button>
+            <button class="btn-action btn-delete" onclick="alert('Delete ${city} - Backend hook needed')">Delete</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    </script>
+  </body>
+  </html>
+

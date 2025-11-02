@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+    <div id="app">
+      <!-- Back Button Row -->
+      
+      <!-- Main content -->
+      <div class="px-4 py-6 w-full max-w-screen-2xl mx-auto space-y-6">
+        <div class="flex items-center justify-between">
+          <div class="text-lg font-semibold">Upload Orders</div>
+          <div class="flex items-center gap-2">
+            <button id="send-all" class="btn-primary">Send All Tracks</button>
+            <button id="send-track" class="btn-secondary">Send by Track</button>
+          </div>
+        </div>
+        <!-- File Upload Section -->
+        <section class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 w-full">
+          <h2 class="text-lg font-semibold mb-4">Order Upload</h2>
+          <div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] gap-3">
+            <input
+              id="file"
+              type="file"
+              accept=".xlsx,.xls"
+              class="focus-brand border border-gray-300 rounded-md h-10 px-3 w-full"
+            />
+            <button id="upload" class="btn-primary">Upload</button>
+          </div>
+        </section>
+
+        <!-- Uploaded Orders Table Section -->
+        <section class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 w-full">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <h3 class="text-base font-semibold">Uploaded Orders</h3>
+            <div class="flex items-center gap-2">
+              <select
+                id="track-filter"
+                class="focus-brand border border-gray-300 rounded-md h-10 px-3 text-sm"
+              >
+                <option value="">All Tracks</option>
+              </select>
+              <button id="send-selected" class="btn-outline-blue">
+                Send Selected
+              </button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full border-collapse text-sm">
+              <thead class="bg-gray-100 text-slate-700">
+                <tr>
+                  <th class="px-4 py-2 text-left"><input type="checkbox" id="select-all" /></th>
+                  <th class="px-4 py-2 text-left">Order ID</th>
+                  <th class="px-4 py-2 text-left">ATM</th>
+                  <th class="px-4 py-2 text-left">Track</th>
+                  <th class="px-4 py-2 text-left">Technician</th>
+                  <th class="px-4 py-2 text-left">Action</th>
+                </tr>
+              </thead>
+              <tbody id="orders-body" class="divide-y divide-gray-100"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="./layout.js"></script>
+    <script>
+      // Unified sidebar/header across all pages
+      __layout.renderLayout({ active: 'upload', title: 'Upload Orders', variant: 'img' });
+    </script>
+    <script>
+      // Remove any backend/Firebase references
+      // (No server calls, no database logic)
+
+      // Utility to show messages as custom modal
+      function showMessage(msg) {
+        const messageBox = document.createElement("div");
+        messageBox.className = "fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50";
+        messageBox.innerHTML = `
+          <div class="bg-white p-6 rounded-lg shadow-2xl max-w-sm text-center">
+            <p class="text-gray-700">${msg}</p>
+            <button onclick="this.parentNode.parentNode.remove()" class="mt-4 btn-primary h-8 px-4">OK</button>
+          </div>`;
+        document.body.appendChild(messageBox);
+      }
+
+      const ordersBody = document.getElementById("orders-body");
+      const trackFilter = document.getElementById("track-filter");
+      const tracks = ["Cairo","Alexandria","Aswan"];
+
+      // populate track filter dropdown
+      tracks.forEach(t => {
+        const o = document.createElement("option");
+        o.value = t;
+        o.textContent = t;
+        trackFilter.appendChild(o);
+      });
+
+      // function to build row
+      function row(order){
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-gray-50 transition-colors";
+        tr.innerHTML = `
+          <td class="px-4 py-2"><input type="checkbox" class="sel rounded text-blue-600 focus:ring-blue-500 border-gray-300"/></td>
+          <td class="px-4 py-2 font-medium">${order.id}</td>
+          <td class="px-4 py-2">${order.atm}</td>
+          <td class="px-4 py-2 text-blue-600 font-semibold">${order.track}</td>
+          <td class="px-4 py-2">
+            <select class="focus-brand border border-gray-300 rounded-md h-8 px-2 text-sm w-32">
+              <option>Mostfa</option>
+              <option>Ali</option>
+            </select>
+          </td>
+          <td class="px-4 py-2"><button class="btn-outline-blue h-8">Send</button></td>`;
+        return tr;
+      }
+
+      // sample orders
+      const sample = [
+        {id:'ORD-1001', atm:'20-100', track:'Cairo'},
+        {id:'ORD-1002', atm:'20-101', track:'Cairo'},
+        {id:'ORD-1003', atm:'20-150', track:'Alexandria'},
+        {id:'ORD-1004', atm:'20-155', track:'Alexandria'},
+        {id:'ORD-1005', atm:'20-200', track:'Aswan'}
+      ];
+
+      function render(list){
+        ordersBody.innerHTML = "";
+        list.forEach(o => ordersBody.appendChild(row(o)));
+        document.getElementById("select-all").checked = false;
+      }
+
+      render(sample);
+
+      trackFilter.addEventListener("change", () => {
+        const f = trackFilter.value;
+        render(f ? sample.filter(s => s.track === f) : sample);
+      });
+
+      document.getElementById("upload").addEventListener("click", () => {
+        showMessage("Mock: File parsed successfully and orders added to the list.");
+      });
+
+      document.getElementById("send-selected").addEventListener("click", () => {
+        const n = document.querySelectorAll(".sel:checked").length;
+        showMessage(`Sending ${n} selected orders for processing.`);
+      });
+
+      document.getElementById("send-all").addEventListener("click", () => {
+        showMessage("Initiating send for all available tracks.");
+      });
+
+      document.getElementById("send-track").addEventListener("click", () => {
+        const f = trackFilter.value || "All";
+        showMessage(`Initiating send for track: ${f}.`);
+      });
+
+      document.getElementById("select-all").addEventListener("change", (e) => {
+        document.querySelectorAll(".sel").forEach(cb => cb.checked = e.target.checked);
+      });
+    </script>
+  </body>
+</html>

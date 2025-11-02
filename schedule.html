@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schedule</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+<!-- ====================================================== -->
+<!-- PAGE: schedule.html                                      -->
+<!-- NOTE: Original code preserved. Comments/IDs added.     -->
+<!-- ====================================================== -->
+
+    <div id="app">
+      <div id="schedule-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
+    <script src="./layout.js"></script>
+    <script>
+      // Shared header/sidebar (image icon variant)
+      __layout.renderLayout({ active: 'schedule', title: 'Schedule', variant: 'img' });
+      const cities = ['Naser city','Mansora','New cairo','Naser city 01','Naser city 02','Ein shams','Mostored','Banha','Banha'];
+      const grid = document.getElementById('schedule-grid');
+      cities.forEach(city=>{
+        const card = document.createElement('a');
+        // Open Admin2 technician assignment page
+        card.href = `admin2.html?city=${encodeURIComponent(city)}`;
+        card.className = 'card border border-gray-200 px-5 py-4 cursor-pointer block';
+        card.innerHTML = `<div class=\"flex items-center justify-between\"><div class=\"text-lg font-semibold\">${city}</div><span class=\"badge-blue\">${city[0]}</span></div><div class=\"text-sm text-slate-500 mt-1\">ATM : 50</div>`;
+        grid.appendChild(card);
+      });
+    </script>
+  </body>
+  </html>
+

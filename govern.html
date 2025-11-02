@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Track Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+<!-- ====================================================== -->
+<!-- PAGE: govern.html                                      -->
+<!-- NOTE: Original code preserved. Comments/IDs added.     -->
+<!-- ====================================================== -->
+
+    <div id="app">
+      <div class="grid grid-cols-1 lg:grid-cols-[420px_minmax(0,1fr)] gap-4">
+        <div id="left-panels"></div>
+        <div>
+          <div id="track-summary" class="flex items-center justify-between mb-2"><div><div id="govern-title" class="text-lg font-semibold">Track</div><div class="text-xs text-slate-500">25 ATM</div></div><div class="text-right"><div id="city-small" class="text-slate-900">City</div><div class="text-xs text-slate-500">20-0053</div></div></div>
+          <div id="atm-list" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./layout.js"></script>
+    <script>
+      __layout.renderLayout({ active: 'branch', title: 'Track Details', variant: 'img' });
+      const p = new URLSearchParams(location.search);
+      const city = p.get('city') || 'City';
+      const track = p.get('track') || 'Track';
+      document.getElementById('city-small').textContent = city;
+      document.getElementById('govern-title').textContent = track;
+      // Inject Edit Track and Edit ATM panels (left side)
+      const left = document.getElementById('left-panels');
+      left.innerHTML = `
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm mb-4">
+          <div class="px-4 py-3 flex items-center justify-between">
+            <div class="text-base font-semibold">Edit Track</div>
+            <button id="toggle-edit-track" class="h-8 w-8 rounded-md border flex items-center justify-center" aria-expanded="true">▾</button>
+          </div>
+          <div id="edit-track-body" class="p-4 pt-0 space-y-3">
+            <div class="relative flex items-center gap-2">
+              <span class="text-indigo-600">📍</span>
+              <select class="appearance-none border border-gray-300 bg-white h-10 rounded-md pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"><option>${city}</option><option>Alexandria</option><option>Aswan</option></select>
+            </div>
+            <div class="relative"><input class="appearance-none border border-gray-300 bg-white h-10 rounded-md px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" value="${track}" /></div>
+            <div class="text-xs text-slate-500">Track ID : 20-5525</div>
+          </div>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+          <div class="px-4 py-3 flex items-center justify-between">
+            <div class="text-base font-semibold">Edit ATM</div>
+            <button id="toggle-edit-atm" class="h-8 w-8 rounded-md border flex items-center justify-center" aria-expanded="true">▾</button>
+          </div>
+          <div id="edit-atm-body" class="p-4 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="relative sm:col-span-2"><select class="appearance-none border border-gray-300 bg-white h-10 rounded-md pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"><option>Bank Of Cairo</option></select></div>
+            <input class="appearance-none border border-gray-300 bg-white h-10 rounded-md px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="ATM Name" value="Tiba mall G floor" />
+            <input class="appearance-none border border-gray-300 bg-white h-10 rounded-md px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="ATM ID" value="20-22473" />
+            <input class="appearance-none border border-gray-300 bg-white h-10 rounded-md px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="ATM Model" value="EV78" />
+            <div class="relative sm:col-span-2"><span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-indigo-600">👤</span><input class="appearance-none border border-gray-300 bg-white h-10 rounded-md pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full" placeholder="Engineer Name" value="Mostfa" /></div>
+            <div class="relative"><span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-indigo-600">📞</span><input class="appearance-none border border-gray-300 bg-white h-10 rounded-md pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Phone Number" value="01110000000" /></div>
+            <div class="sm:col-span-2"><button class="btn-primary w-full">Save</button></div>
+          </div>
+        </div>
+      `;
+      // toggle behavior
+      var t1 = document.getElementById('toggle-edit-track');
+      var b1 = document.getElementById('edit-track-body');
+      var t2 = document.getElementById('toggle-edit-atm');
+      var b2 = document.getElementById('edit-atm-body');
+      t1.addEventListener('click', function(){ var e=t1.getAttribute('aria-expanded')==='true'; t1.setAttribute('aria-expanded', String(!e)); b1.classList.toggle('hidden'); t1.textContent = e ? '▸' : '▾'; });
+      t2.addEventListener('click', function(){ var e=t2.getAttribute('aria-expanded')==='true'; t2.setAttribute('aria-expanded', String(!e)); b2.classList.toggle('hidden'); t2.textContent = e ? '▸' : '▾'; });
+      const atmList = document.getElementById('atm-list');
+      for(let i=0;i<5;i++){
+        const row = document.createElement('div');
+        row.className = 'rounded-md border border-gray-200 px-3 py-3 bg-white';
+        row.innerHTML = `
+          <div class="grid grid-cols-[48px_minmax(0,1fr)_minmax(0,2fr)_auto] items-center gap-3">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTTCx0YbKAjIN5dB_d6XeZoo2LbMfg5lC4zA&s" class="h-12 w-12 rounded-md border object-cover" alt="ATM" />
+            <div class="text-sm"><div class="font-medium">20-00${50+i}</div><div class="text-slate-500">NCR S2</div></div>
+            <div class="text-sm">
+              <div class="text-slate-600">El-shabab center meat ata</div>
+              <div class="flex flex-wrap gap-2 mt-2">
+                <div class="relative flex-1 min-w-[160px]"><span class="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-indigo-600">👤</span><input class="h-8 w-full border border-orange-brand rounded-md pl-7 pr-2 text-sm" value="Mostfa" /></div>
+                <div class="relative flex-1 min-w-[180px]"><span class="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-indigo-600">📞</span><input class="h-8 w-full border border-orange-brand rounded-md pl-7 pr-2 text-sm" placeholder="Phone" value="01110000000" /></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="icon-btn" title="Hide ATM" style="border-color:#fecaca"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.58 10.58a2 2 0 1 0 2.83 2.83"/><path d="M12 3C7 3 3 12 3 12a21.8 21.8 0 0 0 5.07 6.88"/></svg></button>
+              <select class="focus-brand border border-gray-300 rounded-md h-8 px-2 text-sm" title="Change Track">
+                <option>Change Location</option>
+                <option>Cairo</option>
+                <option>Alexandria</option>
+                <option>Aswan</option>
+              </select>
+              <button class="icon-btn" title="Edit"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+              <button class="icon-btn" title="Delete"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+            </div>
+          </div>`;
+        atmList.appendChild(row);
+      }
+    </script>
+  </body>
+  </html>
+

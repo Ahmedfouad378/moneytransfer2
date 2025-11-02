@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reports Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+<!-- ====================================================== -->
+<!-- PAGE: reports.html                                      -->
+<!-- NOTE: Original code preserved. Comments/IDs added.     -->
+<!-- ====================================================== -->
+
+    <div id="app">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[70vh]">
+        <div class="card border border-gray-200 p-4">
+          <div class="text-lg font-semibold mb-3">Machine Performance</div>
+          <div class="grid grid-cols-1 gap-3">
+            <div class="card border border-gray-200 p-3">
+              <div class="font-medium">Time Delay (Total)</div>
+              <div class="text-2xl font-bold text-[var(--brand-blue)]">18 h</div>
+              <div class="text-xs text-slate-500">Across all ATMs today</div>
+            </div>
+            <div class="card border border-gray-200 p-3">
+              <div class="font-medium">Requests Number by Type</div>
+              <canvas id="reqChart" height="160"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="card border border-gray-200 p-4">
+          <div class="text-lg font-semibold mb-3">People History / Deductions</div>
+          <div class="space-y-3">
+            <div class="card border border-gray-200 p-3">
+              <div class="font-medium">Deduction Counter</div>
+              <div id="deduct" class="text-sm mt-1"></div>
+            </div>
+            <div class="card border border-gray-200 p-3">
+              <div class="font-medium">Attendance</div>
+              <div class="text-sm">Check by Card: <span class="badge-blue" title="Compliant">✓</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./layout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      __layout.renderLayout({ active: 'branch', title: 'Reports', variant: 'img' });
+      // Deduction logic: first 3 hours free, then 100 LE per additional hour
+      function computePenalty(totalHours){
+        const billable = Math.max(0, Math.ceil(totalHours - 3));
+        return billable * 100;
+      }
+      const totalDelayHrs = 18; // mock
+      document.getElementById('deduct').textContent = `Total Delay: ${totalDelayHrs}h • Penalty: ${computePenalty(totalDelayHrs)} LE`;
+      // Charts
+      const ctx = document.getElementById('reqChart');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'bar',
+          data: { labels: ['Network','Cash','Hardware'], datasets: [{
+            label: 'Requests', data: [12,5,7], backgroundColor: ['#2e3192','#f58220','#6b7280']
+          }]},
+          options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+      }
+    </script>
+  </body>
+  </html>
+

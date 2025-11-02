@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>City Tracks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./syle.css" />
+  </head>
+  <body class="bg-gray-50 text-slate-900">
+    <div id="app">
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="city-title" class="text-xl font-bold text-gray-800">City</h2>
+          <div class="relative">
+            <select class="focus-brand appearance-none border border-gray-300 bg-white h-10 rounded-md pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 min-w-[180px]"><option>Bank</option><option>Bank Of Cairo</option><option>National Bank</option><option>QNB</option></select>
+          </div>
+        </div>
+      </div>
+      <div id="tracks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
+    <script src="./layout.js"></script>
+    <script>
+      // Unified layout
+      __layout.renderLayout({ active: 'schedule', title: 'City Tracks', variant: 'img' });
+      const params = new URLSearchParams(location.search);
+      const city = params.get('city') || 'City';
+      document.getElementById('city-title').textContent = `Branch View / ${city}`;
+      const tracks = ['Naser city','Naser city 01','Naser city 02','Mostored','Banha','Ein shams'];
+      const grid = document.getElementById('tracks-grid');
+      tracks.forEach(name=>{
+        const card = document.createElement('a');
+        card.href = `govern.html?city=${encodeURIComponent(city)}&track=${encodeURIComponent(name)}`;
+        card.className = 'card border border-gray-200 px-5 py-5 block transition-all duration-200 hover:shadow-lg hover:border-blue-400 hover:-translate-y-1 bg-white rounded-lg';
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="text-lg font-bold text-gray-900 mb-2">${name}</div>
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-sm text-slate-600 bg-slate-50 px-2 py-1 rounded">NCR S2</span>
+              </div>
+            </div>
+            <div class="text-right ml-4">
+              <div class="text-2xl font-bold text-blue-600 mb-1">50</div>
+              <div class="text-xs text-slate-500 uppercase tracking-wide">ATMs</div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">Track Details</span>
+              <span class="text-xs text-blue-600 font-medium">View →</span>
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+    </script>
+  </body>
+  </html>
+
+
