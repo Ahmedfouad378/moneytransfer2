@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===== META ===== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Employee • Dashboard</title>
+
+  <!-- ===== Tailwind + CSS ===== -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./syle.css" />
+</head>
+<body class="min-h-screen flex flex-col overflow-hidden">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white border-b border-gray-200 flex-shrink-0">
+    <div class="header-container">
+      <div class="logo-section">
+        <div class="logo-icon">🏦</div>
+        <div class="logo-text">Employee Portal</div>
+      </div>
+      <nav>
+        <a href="./employee-dashboard-enhanced.html">Dashboard</a>
+        <a href="./upload-order.html">Upload</a>
+        <a href="./technician-assign.html">Assign</a>
+        <a href="./requests.html">Requests</a>
+        <a href="./history.html">History</a>
+        <a href="./analytics.html">Analytics</a>
+        <a href="./profile.html">Profile</a>
+        <a href="./employee-login.html" class="logout">Logout</a>
+      </nav>
+    </div>
+    <div class="back-button-container">
+      <button id="backButton" class="back-btn-small" onclick="history.back()">
+        <span>←</span> Back
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================
+       PAGE: employee-dashboard.html
+       PURPOSE: Front-end only (no backend).
+       IDS: main=empDashboard, urgent=urgentFollow, request=empRequests
+       ========================================================== -->
+  <main id="empDashboard" class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 overflow-y-auto">
+
+    <!-- ===== Left column: gold sticky note ===== -->
+    <section id="empComposer" class="lg:col-span-5 flex flex-col">
+      <div class="sticky-note p-0 flex-1 flex flex-col">
+        <div class="sticky-head flex items-center justify-between px-4 py-3">
+          <div class="text-sm font-semibold">El Ahly • May 2024 &nbsp; <span class="text-xs text-slate-700">1:30 pm</span></div>
+          <button aria-label="close" class="text-slate-800 text-xl leading-none">×</button>
+        </div>
+        <div class="p-4">
+          <div class="h-48 rounded-md bg-white/10"></div>
+        </div>
+        <div class="sticky-white px-4 py-4 space-y-3">
+          <input id="composeTitle" class="input w-full" placeholder="Title" />
+          <textarea id="composeMessage" class="textarea w-full" placeholder="Message"></textarea>
+          <div class="pt-1">
+            <button id="composeSend" class="btn-secondary w-full">Send</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      <!-- ===== Right column ===== -->
+    <div class="lg:col-span-7 space-y-6 flex flex-col">
+
+      <!-- ===== Urgent follow up ===== -->
+      <section id="urgentFollow" class="card flex-1 flex flex-col">
+        <div class="px-5 pt-5 pb-3 flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Urgent follow up</h2>
+
+          <!-- Tabs -->
+          <div class="pill-group" role="tablist" aria-label="urgent-tabs">
+            <button class="pill" role="tab" aria-selected="false" data-tab="meet">meet</button>
+            <button class="pill" role="tab" aria-selected="true"  data-tab="call">call</button>
+            <button class="pill" role="tab" aria-selected="false" data-tab="maintenance">
+              Maintenance <span class="pill-badge">2</span>
+            </button>
+            <button class="pill" role="tab" aria-selected="false" data-tab="feed">Feed</button>
+          </div>
+        </div>
+
+        <!-- Progress header -->
+        <div class="px-5 pb-3 text-sm text-slate-600 flex items-center justify-between">
+          <div class="font-medium">progress</div>
+          <div>8/10</div>
+        </div>
+
+        <!-- Table -->
+        <div class="px-5 pb-5">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th class="cell-right">Time</th>
+                <th class="cell-right">Done</th>
+              </tr>
+            </thead>
+            <tbody id="urgentTbody">
+              <!-- rows injected by employee.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== Request ===== -->
+      <section id="empRequests" class="card flex-1 flex flex-col">
+        <div class="px-5 pt-5 pb-3 flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Request</h2>
+
+          <!-- Toggle Call/Meet -->
+          <div class="pill-group" role="tablist" aria-label="request-tabs">
+            <button class="pill" role="tab" aria-selected="true" data-tab="call">Call</button>
+            <button class="pill" role="tab" aria-selected="false" data-tab="meet">Meet</button>
+          </div>
+        </div>
+
+        <div class="px-5 pb-5">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ATM & Emp.</th>
+                <th class="cell-right">Date and Time</th>
+              </tr>
+            </thead>
+            <tbody id="requestTbody">
+              <!-- rows injected by employee.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===== Scripts (front-only) ===== -->
+  <script src="./employee.js"></script>
+</body>
+</html>

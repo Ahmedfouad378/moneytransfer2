@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./syle.css"/>
+</head>
+<body class="min-h-screen flex flex-col overflow-hidden">
+  <header class="bg-white border-b border-gray-200 flex-shrink-0">
+    <div class="header-container">
+      <div class="logo-section">
+        <div class="logo-icon">🏦</div>
+        <div class="logo-text">Employee Portal</div>
+      </div>
+      <nav>
+        <a href="./employee-dashboard-enhanced.html">Dashboard</a>
+        <a href="./upload-order.html">Upload</a>
+        <a href="./technician-assign.html">Assign</a>
+        <a href="./requests.html">Requests</a>
+        <a href="./history.html">History</a>
+        <a href="./analytics.html">Analytics</a>
+        <a href="./profile.html">Profile</a>
+        <a href="./employee-login.html" class="logout">Logout</a>
+      </nav>
+    </div>
+    <div class="back-button-container">
+      <button class="back-btn-small" onclick="history.back()"><span>←</span> Back</button>
+    </div>
+  </header>
+  
+  <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 overflow-y-auto">
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-2">Track Performance</h2>
+      <p class="text-slate-600 text-sm mb-3">Avg time-to-fix per track (hrs)</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li>Cairo — 2.3h</li>
+        <li>Alexandria — 3.1h</li>
+        <li>Aswan — 1.7h</li>
+      </ul>
+    </section>
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-2">Technician Efficiency</h2>
+      <p class="text-slate-600 text-sm mb-3">Orders completed per day</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li>Mostfa — 6 orders/day</li>
+        <li>Ali — 5 orders/day</li>
+      </ul>
+    </section>
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-2">ATM Reliability</h2>
+      <p class="text-slate-600 text-sm mb-3">Issue count per machine</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li>ATM 20-100 — issues: 1</li>
+        <li>ATM 20-200 — issues: 3</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
+    
