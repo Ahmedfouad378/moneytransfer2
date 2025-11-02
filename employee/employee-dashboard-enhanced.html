@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===== META ===== -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Employee • Dashboard (Enhanced)</title>
+
+  <!-- ===== Tailwind + CSS ===== -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./syle.css"/>
+</head>
+<body class="min-h-screen flex flex-col overflow-hidden">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white border-b border-gray-200 flex-shrink-0">
+    <div class="header-container">
+      <div class="logo-section">
+        <div class="logo-icon">🏦</div>
+        <div class="logo-text">Employee Portal</div>
+      </div>
+      <nav>
+        <a href="./employee-dashboard-enhanced.html">Dashboard</a>
+        <a href="./upload-order.html">Upload</a>
+        <a href="./technician-assign.html">Assign</a>
+        <a href="./requests.html">Requests</a>
+        <a href="./history.html">History</a>
+        <a href="./analytics.html">Analytics</a>
+        <a href="./profile.html">Profile</a>
+        <a href="./employee-login.html" class="logout">Logout</a>
+      </nav>
+    </div>
+    <div class="back-button-container">
+      <button class="back-btn-small" onclick="history.back()">
+        <span>←</span> Back
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="empDashboardEnhanced" class="space-y-6 flex-1 overflow-y-auto">
+
+    <!-- Welcome + KPI Cards -->
+    <section class="space-y-4">
+      <div class="flex items-end justify-between flex-wrap gap-2">
+        <div>
+          <h1 class="text-2xl font-semibold">Welcome, <span id="empName">Employee</span> 👋</h1>
+          <p class="text-slate-600 text-sm" id="todayText"></p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="kpiGrid"></div>
+    </section>
+
+    <!-- Notifications + Calendar -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="card p-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Urgent Alerts</h2>
+          <button class="btn-outline-blue h-9">Refresh</button>
+        </div>
+        <ul class="mt-4 space-y-3 text-sm" id="alertsList"></ul>
+      </div>
+
+      <div class="card p-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Today’s Schedule</h2>
+          <div class="text-slate-500 text-sm" id="calendarDate"></div>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm" id="scheduleToday"></ul>
+      </div>
+    </section>
+
+    <!-- Urgent Follow Up -->
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-3">Urgent Follow Up</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Status</th>
+            <th class="cell-right">Time</th>
+            <th class="cell-right">Done</th>
+          </tr>
+        </thead>
+        <tbody id="urgentTbody"></tbody>
+      </table>
+    </section>
+
+    <!-- Technician Workflow -->
+    <section class="card p-6">
+      <h2 class="text-lg font-semibold mb-3">Technician Workflow</h2>
+      <p class="text-sm text-slate-600 mb-3">
+        Overall status of technician orders: Pending → In Progress → Done
+      </p>
+      <div id="techFlowBar"></div>
+    </section>
+
+    <!-- Pending Requests -->
+    <section class="card p-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Pending Requests</h2>
+        <a href="./requests.html" class="btn-outline-blue h-9">Manage All</a>
+      </div>
+      <div id="pendingRequests" class="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </section>
+
+  </main>
+
+  <!-- ===== JS ===== -->
+  <script src="./employee.js"></script>
+  <script>
+    EmpInit.enhancedDashboard();
+    renderTechFlow();
+  </script>
+</body>
+</html>
